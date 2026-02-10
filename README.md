@@ -1,4 +1,4 @@
-# Parmelian
+# DjangoPhotobooth
 
 Social network written in Python Django.
 
@@ -7,8 +7,8 @@ Social network written in Python Django.
 Clone the repository
 
 ``` bash
-git clone https://github.com/bachokviktor/parmelian-social-network.git
-cd parmelian-social-network
+git clone https://github.com/bachokviktor/django-photobooth.git
+cd django-photobooth
 ```
 
 Create a virtual environment
