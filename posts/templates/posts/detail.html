@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Post by {{ post.author.username }}
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-sm-6 mb-4">
+      <div id="postPhotoCarousel" class="carousel slide">
+	<div class="carousel-inner">
+	  {% for p in post.photos.all %}
+	    {% if forloop.counter == 1 %}
+	      <div class="carousel-item active">
+	    {% else %}
+              <div class="carousel-item">
+	    {% endif %}
+	      <img src="{{ p.photo.url }}" class="d-block w-100" alt="Post photo {{ forloop.counter }}">
+	    </div>
+	  {% endfor %}
+        </div>
+	<button class="carousel-control-prev" type="button" data-bs-target="#postPhotoCarousel" data-bs-slide="prev">
+	  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+	  <span class="visually-hidden">Previous</span>
+	</button>
+	<button class="carousel-control-next" type="button" data-bs-target="#postPhotoCarousel" data-bs-slide="next">
+	  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+	  <span class="visually-hidden">Next</span>
+	</button>
+      </div>
+    </div>
+    <div class="col-sm-6 mb-4">
+      <p><a href="{% url 'users:profile' username=post.author.username %}">{{ post.author.username }}</a>: {{ post.description }}</p>
+    
+      {% if post.modified_at %}
+	<p>{{ post.modified_at }} (modified)</p>
+      {% else %}
+	<p>{{ post.created_at }}</p>
+      {% endif %}
+
+      <p>Likes: {{ post.likes.all.count }} | Saves: {{ post.saves.all.count }}</p>
+
+      {% if user.is_authenticated %}
+	<div class="row">
+	  <div class="col-md-auto">
+	    {% if user in post.likes.all %}
+	      <form action="{% url 'posts:unlike' pk=post.id %}" method="post">
+		{% csrf_token %}
+		<button class="btn btn-danger" type="submit">Unlike</button>
+	      </form>
+	    {% else %}
+	      <form action="{% url 'posts:like' pk=post.id %}" method="post">
+		{% csrf_token %}
+		<button class="btn btn-danger" type="submit">Like</button>
+	      </form>
+	    {% endif %}
+	  </div>
+
+	  <div class="col-md-auto">
+	    {% if user in post.saves.all %}
+	      <form action="{% url 'posts:unsave' pk=post.id %}" method="post">
+		{% csrf_token %}
+		<button class="btn btn-warning" type="submit">Unsave</button>
+	      </form>
+	    {% else %}
+	      <form action="{% url 'posts:save' pk=post.id %}" method="post">
+		{% csrf_token %}
+		<button class="btn btn-warning" type="submit">Save</button>
+	      </form>
+	    {% endif %}
+	  </div>
+
+	  {% if user == post.author %}
+	    <div class="col">
+		<a href="{% url 'posts:edit' pk=post.id %}" class="btn btn-primary">Edit</a>
+	    </div>
+	  {% endif %}
+	</div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

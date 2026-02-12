@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Feed
+{% endblock %}
+
+{% block content %}
+  <div class="row row-cols-auto">
+    {% for post in posts %}
+      <div class="col mb-4 mx-auto">
+	<div style="width: 18rem; height: 18rem;">
+	  <img src="{{ post.photos.first.photo.url }}" style="object-fit: cover; width: 100%; height: 100%;" alt="Post by {{ post.author.username }}">
+	</div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
