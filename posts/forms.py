@@ -27,3 +27,9 @@ class PostUpdateForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         self.fields["new_photos"].widget.attrs.update({"multiple": "true"})
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = models.Comment
+        fields = ["text"]

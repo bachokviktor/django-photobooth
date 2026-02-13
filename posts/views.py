@@ -23,6 +23,13 @@ class PostDetailView(generic.DetailView):
     model = models.Post
     template_name = "posts/detail.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["comment_form"] = forms.CommentForm()
+
+        return context
+
 
 class PostCreateView(LoginRequiredMixin, View):
     login_url = reverse_lazy("users:login")
@@ -82,6 +89,17 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
 
 
 @login_required(login_url=reverse_lazy("users:login"))
+def post_delete_view(request, pk):
+    if request.method == "POST":
+        post = get_object_or_404(models.Post, pk=pk)
+
+        if request.user == post.author:
+            post.delete()
+
+    return redirect("posts:feed")
+
+
+@login_required(login_url=reverse_lazy("users:login"))
 def post_like_view(request, pk):
     if request.method == "POST":
         post = get_object_or_404(models.Post, pk=pk)
@@ -121,5 +139,57 @@ def post_unsave_view(request, pk):
 
         if request.user in post.saves.all():
             post.saves.remove(request.user)
+
+    return redirect("posts:detail", pk=pk)
+
+@login_required(login_url=reverse_lazy("users:login"))
+def post_comment_view(request, pk):
+    if request.method == "POST":
+        form = forms.CommentForm(request.POST)
+        post = get_object_or_404(models.Post, pk=pk)
+
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author = request.user
+            comment.post = post
+
+            comment.save()
+
+            return redirect("posts:detail", pk=pk)
+
+        return render(request, "posts/detail.html", {"post": post, "comment_form": form})
+
+    return redirect("posts:detail", pk=pk)
+
+
+@login_required(login_url=reverse_lazy("users:login"))
+def post_like_comment_view(request, pk, comment_id):
+    if request.method == "POST":
+        comment = get_object_or_404(models.Comment, pk=comment_id)
+
+        if request.user not in comment.likes.all():
+            comment.likes.add(request.user)
+
+    return redirect("posts:detail", pk=pk)
+
+
+@login_required(login_url=reverse_lazy("users:login"))
+def post_unlike_comment_view(request, pk, comment_id):
+    if request.method == "POST":
+        comment = get_object_or_404(models.Comment, pk=comment_id)
+
+        if request.user in comment.likes.all():
+            comment.likes.remove(request.user)
+
+    return redirect("posts:detail", pk=pk)
+
+
+@login_required(login_url=reverse_lazy("users:login"))
+def post_delete_comment_view(request, pk, comment_id):
+    if request.method == "POST":
+        comment = get_object_or_404(models.Comment, pk=comment_id)
+
+        if request.user == comment.author:
+            comment.delete()
 
     return redirect("posts:detail", pk=pk)
