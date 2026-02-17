@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 
 # Create your models here.
@@ -8,7 +9,7 @@ class Post(models.Model):
     """
     This model represents a post.
     """
-    description = models.TextField()
+    description = models.TextField(_("description"))
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, blank=True, related_name="posts")
     likes = models.ManyToManyField(get_user_model(), related_name="liked_posts", blank=True)
     saves = models.ManyToManyField(get_user_model(), related_name="saved_posts", blank=True)
@@ -40,7 +41,7 @@ class Comment(models.Model):
     """
     This model represents a comment.
     """
-    text = models.TextField()
+    text = models.TextField(_("text"))
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, blank=True, related_name="comments")
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
     reply_to = models.ForeignKey("self", on_delete=models.CASCADE, blank=True, null=True, related_name="replies")

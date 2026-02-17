@@ -1,0 +1,126 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-17 22:30+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: config/settings.py:132
+msgid "English"
+msgstr ""
+
+#: config/settings.py:133
+msgid "Ukrainian"
+msgstr ""
+
+#: posts/forms.py:8
+msgid "Post photos"
+msgstr ""
+
+#: posts/forms.py:21
+msgid "New photos"
+msgstr ""
+
+#: posts/models.py:12
+msgid "description"
+msgstr ""
+
+#: posts/models.py:44
+msgid "text"
+msgstr ""
+
+#: posts/templates/posts/create.html:7
+msgid "New post"
+msgstr ""
+
+#: posts/templates/posts/create.html:11
+msgid "Create a new post"
+msgstr ""
+
+#: posts/templates/posts/create.html:15
+msgid "Create"
+msgstr ""
+
+#: posts/templates/posts/detail.html:6
+msgid "modified"
+msgstr ""
+
+#: posts/templates/posts/detail.html:7
+msgid "Like"
+msgstr ""
+
+#: posts/templates/posts/detail.html:8
+msgid "Unlike"
+msgstr ""
+
+#: posts/templates/posts/detail.html:9
+msgid "Delete"
+msgstr ""
+
+#: posts/templates/posts/detail.html:10
+msgid "Likes"
+msgstr ""
+
+#: posts/templates/posts/detail.html:13
+msgid "Post by"
+msgstr ""
+
+#: posts/templates/posts/detail.html:33
+msgid "Previous"
+msgstr ""
+
+#: posts/templates/posts/detail.html:37
+msgid "Next"
+msgstr ""
+
+#: posts/templates/posts/detail.html:50
+msgid "Saves"
+msgstr ""
+
+#: posts/templates/posts/detail.html:72
+msgid "Unsave"
+msgstr ""
+
+#: posts/templates/posts/detail.html:77 posts/templates/posts/edit.html:15
+msgid "Save"
+msgstr ""
+
+#: posts/templates/posts/detail.html:84
+msgid "Edit"
+msgstr ""
+
+#: posts/templates/posts/detail.html:100
+msgid "Comments"
+msgstr ""
+
+#: posts/templates/posts/detail.html:134
+msgid "No comments."
+msgstr ""
+
+#: posts/templates/posts/detail.html:143
+msgid "Comment"
+msgstr ""
+
+#: posts/templates/posts/edit.html:7
+msgid "Edit post"
+msgstr ""
+
+#: posts/templates/posts/edit.html:11
+msgid "Edit a post"
+msgstr ""
+
+#: posts/templates/posts/feed.html:5
+msgid "Feed"
+msgstr ""

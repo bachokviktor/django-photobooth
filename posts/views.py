@@ -7,7 +7,6 @@ from django.contrib.auth.decorators import login_required
 
 from . import models, forms
 
-
 # Create your views here.
 def empty(request, *args, **kwargs):
     return HttpResponse("<h2>Empty page</h2>")

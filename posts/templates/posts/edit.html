@@ -1,16 +1,17 @@
 {% extends "base.html" %}
 
 {% load crispy_forms_tags %}
+{% load i18n %}
 
 {% block title %}
-  Edit post
+  {% translate "Edit post" %}
 {% endblock %}
 
 {% block content %}
-  <h2>Edit a post</h2>
+  <h2>{% translate "Edit a post" %}</h2>
   <form action="{% url 'posts:edit' pk=form.instance.id %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form|crispy }}
-    <button class="btn btn-success" type="submit">Save</button>
+    <button class="btn btn-success" type="submit">{% translate "Save" %}</button>
   </form>
 {% endblock %}

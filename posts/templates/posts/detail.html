@@ -1,12 +1,19 @@
 {% extends "base.html" %}
 
 {% load crispy_forms_tags %}
+{% load i18n %}
 
 {% block title %}
-  Post by {{ post.author.username }}
+  {% translate "Post by" %} {{ post.author.username }}
 {% endblock %}
 
 {% block content %}
+  {% translate "modified" as t_modified %}
+  {% translate "Like" as t_like %}
+  {% translate "Unlike" as t_unlike %}
+  {% translate "Delete" as t_delete %}
+  {% translate "Likes" as t_likes %}
+
   <div class="row">
     <div class="col-sm-6 mb-4">
       <div id="postPhotoCarousel" class="carousel slide">
@@ -23,11 +30,11 @@
         </div>
 	<button class="carousel-control-prev" type="button" data-bs-target="#postPhotoCarousel" data-bs-slide="prev">
 	  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-	  <span class="visually-hidden">Previous</span>
+	  <span class="visually-hidden">{% translate "Previous" %}</span>
 	</button>
 	<button class="carousel-control-next" type="button" data-bs-target="#postPhotoCarousel" data-bs-slide="next">
 	  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-	  <span class="visually-hidden">Next</span>
+	  <span class="visually-hidden">{% translate "Next" %}</span>
 	</button>
       </div>
     </div>
@@ -35,12 +42,12 @@
       <p><a href="{% url 'users:profile' username=post.author.username %}">{{ post.author.username }}</a>: {{ post.description }}</p>
     
       {% if post.modified_at %}
-	<p>{{ post.modified_at }} (modified)</p>
+	<p>{{ post.modified_at }} ({{ t_modified }})</p>
       {% else %}
 	<p>{{ post.created_at }}</p>
       {% endif %}
 
-      <p>Likes: {{ post.likes.all.count }} | Saves: {{ post.saves.all.count }}</p>
+      <p>{{ t_likes }}: {{ post.likes.all.count }} | {% translate "Saves" %}: {{ post.saves.all.count }}</p>
 
       {% if user.is_authenticated %}
 	<div class="row">
@@ -48,12 +55,12 @@
 	    {% if user in post.likes.all %}
 	      <form action="{% url 'posts:unlike' pk=post.id %}" method="post">
 		{% csrf_token %}
-		<button class="btn btn-danger" type="submit">Unlike</button>
+		<button class="btn btn-danger" type="submit">{{ t_unlike }}</button>
 	      </form>
 	    {% else %}
 	      <form action="{% url 'posts:like' pk=post.id %}" method="post">
 		{% csrf_token %}
-		<button class="btn btn-danger" type="submit">Like</button>
+		<button class="btn btn-danger" type="submit">{{ t_like }}</button>
 	      </form>
 	    {% endif %}
 	  </div>
@@ -62,25 +69,25 @@
 	    {% if user in post.saves.all %}
 	      <form action="{% url 'posts:unsave' pk=post.id %}" method="post">
 		{% csrf_token %}
-		<button class="btn btn-warning" type="submit">Unsave</button>
+		<button class="btn btn-warning" type="submit">{% translate "Unsave" %}</button>
 	      </form>
 	    {% else %}
 	      <form action="{% url 'posts:save' pk=post.id %}" method="post">
 		{% csrf_token %}
-		<button class="btn btn-warning" type="submit">Save</button>
+		<button class="btn btn-warning" type="submit">{% translate "Save" %}</button>
 	      </form>
 	    {% endif %}
 	  </div>
 
 	  {% if user == post.author %}
 	    <div class="col-md-auto">
-		<a href="{% url 'posts:edit' pk=post.id %}" class="btn btn-primary">Edit</a>
+	      <a href="{% url 'posts:edit' pk=post.id %}" class="btn btn-primary">{% translate "Edit" %}</a>
 	    </div>
 
 	    <div class="col">
 	      <form action="{% url 'posts:delete' pk=post.id %}" method="post">
 		{% csrf_token %}
-		<button class="btn btn-danger" type="submit">Delete</button>
+		<button class="btn btn-danger" type="submit">{{ t_delete }}</button>
 	      </form>
 	    </div>
 	  {% endif %}
@@ -90,41 +97,41 @@
   </div>
 
   <div class="mt-4">
-    <h2>Comments</h2>
+    <h2>{% translate "Comments" %}</h2>
     {% if post.comments.all %}
       {% for comment in post.comments.all %}
 	<div>
 	  <p><a href="{% url 'users:profile' username=comment.author.username %}">{{ comment.author.username }}</a>: {{ comment.text }}</p>
 	  {% if comment.modified_at %}
-	    <p>{{ comment.modified_at }} (modified)</p>
+	    <p>{{ comment.modified_at }} ({{ t_modified }})</p>
 	  {% else %}
 	    <p>{{ comment.created_at }}</p>
 	  {% endif %}
-	  <p>Likes: {{ comment.likes.all.count }}</p>
+	  <p>{{ t_likes }}: {{ comment.likes.all.count }}</p>
 	  {% if user.is_authenticated %}
 	    {% if user in comment.likes.all %}
 	      <form action="{% url 'posts:unlike_comment' pk=post.id comment_id=comment.id %}" method="post">
 		{% csrf_token %}
-		<button class="btn btn-danger" type="submit">Unlike</button>
+		<button class="btn btn-danger" type="submit">{{ t_unlike }}</button>
 	      </form>
 	    {% else %}
 	      <form action="{% url 'posts:like_comment' pk=post.id comment_id=comment.id %}" method="post">
 		{% csrf_token %}
-		<button class="btn btn-danger" type="submit">Like</button>
+		<button class="btn btn-danger" type="submit">{{ t_like }}</button>
 	      </form>
 	    {% endif %}
 
 	    {% if user == comment.author %}
 	      <form action="{% url 'posts:delete_comment' pk=post.id comment_id=comment.id %}" method="post">
 		{% csrf_token %}
-		<button class="btn btn-danger" type="submit">Delete</button>
+		<button class="btn btn-danger" type="submit">{{ t_delete }}</button>
 	      </form>
 	    {% endif %}
 	  {% endif %}
 	</div>
       {% endfor %}
     {% else %}
-      <p>No comments.</p>
+      <p>{% translate "No comments." %}</p>
     {% endif %}
 
     {% if user.is_authenticated %}
@@ -133,7 +140,7 @@
 	  {% csrf_token %}
 	  {{ comment_form|crispy }}
 
-          <button class="btn btn-primary" type="submit">Comment</button>
+          <button class="btn btn-primary" type="submit">{% translate "Comment" %}</button>
 	</form>
       </div>
     {% endif %}

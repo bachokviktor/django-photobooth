@@ -1,10 +1,11 @@
 from django import forms
+from django.utils.translation import gettext_lazy as _
 
 from . import models
 
 
 class PostForm(forms.ModelForm):
-    post_photos = forms.ImageField()
+    post_photos = forms.ImageField(label=_("Post photos"))
 
     class Meta:
         model = models.Post
@@ -17,7 +18,7 @@ class PostForm(forms.ModelForm):
 
 
 class PostUpdateForm(forms.ModelForm):
-    new_photos = forms.ImageField(required=False)
+    new_photos = forms.ImageField(required=False, label=_("New photos"))
 
     class Meta:
         model = models.Post
